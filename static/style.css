@@ -1,0 +1,208 @@
+/* static/style.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 380px;
+    background: #ffffff;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    z-index: 10;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.weights {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.weights input {
+    width: 70%;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.weights span {
+    margin-left: 10px;
+    font-family: monospace;
+    color: #3498db;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 20px 0;
+}
+
+.btn:hover {
+    background: #2980b9;
+}
+
+.results {
+    margin-top: 20px;
+    border-top: 1px solid #ecf0f1;
+    padding-top: 15px;
+}
+
+.results h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.route-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.route-card:hover {
+    transform: translateX(4px);
+    background: #ecf0f1;
+}
+
+.route-card.selected {
+    border-color: #3498db;
+    background: #e8f4fd;
+}
+
+.route-card .route-path {
+    font-family: monospace;
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+}
+
+.route-card .route-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.route-card .stat {
+    text-align: center;
+}
+
+.route-card .stat .value {
+    font-weight: bold;
+    color: #3498db;
+}
+
+.route-card .stat .label {
+    font-size: 10px;
+    color: #95a5a6;
+}
+
+/* TODO: кнопка лайка (будет добавлена позже с адаптацией) */
+/*
+.like-btn {
+    margin-top: 8px;
+    padding: 4px 8px;
+    background: #e74c3c;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 11px;
+    cursor: pointer;
+    width: 100%;
+}
+.like-btn:hover {
+    background: #c0392b;
+}
+*/
+
+/* TODO: кнопка сброса весов (будет добавлена позже) */
+/*
+.btn-reset {
+    width: 100%;
+    padding: 8px;
+    background: #95a5a6;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.btn-reset:hover {
+    background: #7f8c8d;
+}
+*/
+
+.map-container {
+    flex: 1;
+    position: relative;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}

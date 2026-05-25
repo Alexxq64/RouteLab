@@ -1,0 +1,12 @@
+﻿venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+*.log
+osrm-data/
+*.osrm
+*.osrm.*
+moscow-latest.osm.pbf
+.vscode/
+.idea/

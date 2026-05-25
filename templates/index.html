@@ -1,0 +1,66 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RouteLab — многокритериальная маршрутизация</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h1>RouteLab</h1>
+            <p class="subtitle">Парето-оптимальные маршруты</p>
+
+            <div class="form-group">
+                <label>Откуда:</label>
+                <select id="fromSelect"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Куда:</label>
+                <select id="toSelect"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Приоритеты (веса):</label>
+                <div class="weights">
+                    <label>Время: <input type="range" id="weightTime" min="0" max="1" step="0.05" value="0.5"></label>
+                    <span id="timeVal">0.50</span>
+                </div>
+                <div class="weights">
+                    <label>Стоимость: <input type="range" id="weightCost" min="0" max="1" step="0.05" value="0.3"></label>
+                    <span id="costVal">0.30</span>
+                </div>
+                <div class="weights">
+                    <label>Комфорт: <input type="range" id="weightComfort" min="0" max="1" step="0.05" value="0.2"></label>
+                    <span id="comfortVal">0.20</span>
+                </div>
+            </div>
+
+            <button id="searchBtn" class="btn">Найти маршруты</button>
+
+            <!-- TODO: кнопка сброса весов (будет добавлена позже) -->
+            <!-- <button id="resetWeightsBtn" class="btn-reset">Сбросить веса</button> -->
+
+            <div class="results" id="results">
+                <h3>Маршруты</h3>
+                <div id="routesList"></div>
+            </div>
+
+            <!-- TODO: график Парето-фронта (будет добавлен позже) -->
+            <!-- <div id="paretoChart" style="margin-top: 20px;"></div> -->
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

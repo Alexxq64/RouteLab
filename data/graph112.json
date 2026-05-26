@@ -1,0 +1,192 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Южнобутовская улица",
+      "lat": 55.538047975,
+      "lon": 37.534076975000005
+    },
+    {
+      "id": 1,
+      "name": "Южнобутовская улица, 38",
+      "lat": 55.5405964,
+      "lon": 37.5373041
+    },
+    {
+      "id": 2,
+      "name": "Центр социальной реабилитации",
+      "lat": 55.54317195,
+      "lon": 37.5400626
+    },
+    {
+      "id": 3,
+      "name": "Чечёрский проезд, 10",
+      "lat": 55.54116875,
+      "lon": 37.5447326
+    },
+    {
+      "id": 4,
+      "name": "4-й микрорайон Южного Бутова",
+      "lat": 55.5351022,
+      "lon": 37.5363846
+    },
+    {
+      "id": 5,
+      "name": "Храм",
+      "lat": 55.53472155,
+      "lon": 37.537840900000006
+    },
+    {
+      "id": 6,
+      "name": "Чечёрский проезд, 24",
+      "lat": 55.5367217,
+      "lon": 37.541504950000004
+    }
+  ],
+  "edges": [
+    {
+      "from": 0,
+      "to": 4,
+      "time": 0.6,
+      "time_min": 0.4,
+      "time_max": 0.9,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 0,
+      "to": 1,
+      "time": 0.7,
+      "time_min": 0.5,
+      "time_max": 1.0,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 0,
+      "to": 5,
+      "time": 1.0,
+      "time_min": 0.7,
+      "time_max": 1.5,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "time": 0.5,
+      "time_min": 0.3,
+      "time_max": 0.8,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "time": 1.2,
+      "time_min": 0.8,
+      "time_max": 1.8,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "time": 0.3,
+      "time_min": 0.2,
+      "time_max": 0.4,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 4,
+      "to": 6,
+      "time": 0.7,
+      "time_min": 0.5,
+      "time_max": 1.0,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "time": 0.4,
+      "time_min": 0.3,
+      "time_max": 0.6,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 4,
+      "to": 0,
+      "time": 0.6,
+      "time_min": 0.4,
+      "time_max": 0.9,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 1,
+      "to": 0,
+      "time": 0.7,
+      "time_min": 0.5,
+      "time_max": 1.0,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 5,
+      "to": 0,
+      "time": 1.0,
+      "time_min": 0.7,
+      "time_max": 1.5,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 2,
+      "to": 1,
+      "time": 0.5,
+      "time_min": 0.3,
+      "time_max": 0.8,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 3,
+      "to": 2,
+      "time": 1.2,
+      "time_min": 0.8,
+      "time_max": 1.8,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 5,
+      "to": 4,
+      "time": 0.3,
+      "time_min": 0.2,
+      "time_max": 0.4,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 6,
+      "to": 4,
+      "time": 0.7,
+      "time_min": 0.5,
+      "time_max": 1.0,
+      "cost": 50,
+      "comfort": 8
+    },
+    {
+      "from": 6,
+      "to": 5,
+      "time": 0.4,
+      "time_min": 0.3,
+      "time_max": 0.6,
+      "cost": 50,
+      "comfort": 8
+    }
+  ]
+}

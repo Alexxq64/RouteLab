@@ -6,9 +6,10 @@ let currentRoutes = [];
 let currentSelectedRoute = null;
 let markersLayer = null;
 let routesLayer = null;
+let currentRoutingControls = [];
 
 function initMap() {
-    map = L.map('map').setView([55.755, 37.617], 13);
+    map = L.map('map').setView([55.751, 37.617], 14);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CartoDB',
         subdomains: 'abcd',
@@ -60,38 +61,93 @@ function addMarkers() {
     });
 }
 
-function drawRoutes(routes, selectedIndex = 0) {
+function getCacheKey(waypoints) {
+    const key = waypoints.map(w => `${w.lat.toFixed(5)},${w.lng.toFixed(5)}`).join(';');
+    return `osrm_${key}`;
+}
+
+async function fetchOSRM(waypoints) {
+    const coords = waypoints.map(w => `${w.lng},${w.lat}`).join(';');
+    const url = `https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`OSRM error: ${response.status}`);
+    const data = await response.json();
+    if (data.code !== 'Ok') throw new Error('OSRM route not found');
+    const coordsArray = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+    return coordsArray;
+}
+
+async function fetchOpenRouteService(waypoints) {
+    const coords = waypoints.map(w => `${w.lng},${w.lat}`).join('|');
+    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b2b6c2fa8b3e4b3e9b3e4b3e9b3e4b3e9&start=${coords.split('|')[0]}&end=${coords.split('|')[1]}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`ORS error: ${response.status}`);
+    const data = await response.json();
+    const coordsArray = data.features[0].geometry.coordinates.map(c => [c[1], c[0]]);
+    return coordsArray;
+}
+
+function getStraightLine(waypoints) {
+    return waypoints.map(w => [w.lat, w.lng]);
+}
+
+async function getRouteGeometry(waypoints) {
+    const cacheKey = getCacheKey(waypoints);
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+        return JSON.parse(cached);
+    }
+    try {
+        const coords = await fetchOSRM(waypoints);
+        localStorage.setItem(cacheKey, JSON.stringify(coords));
+        return coords;
+    } catch (e) {
+        console.warn('OSRM failed, trying OpenRouteService', e);
+        try {
+            const coords = await fetchOpenRouteService(waypoints);
+            localStorage.setItem(cacheKey, JSON.stringify(coords));
+            return coords;
+        } catch (e2) {
+            console.warn('OpenRouteService failed, using straight line', e2);
+            const coords = getStraightLine(waypoints);
+            localStorage.setItem(cacheKey, JSON.stringify(coords));
+            return coords;
+        }
+    }
+}
+
+async function drawRoutesWithOSRM(routes, selectedIndex) {
     if (routesLayer) {
         map.removeLayer(routesLayer);
     }
     routesLayer = L.layerGroup().addTo(map);
 
-    routes.forEach((route, idx) => {
-        const latlngs = route.path.map(nodeId => {
+    for (let i = 0; i < routes.length; i++) {
+        const route = routes[i];
+        const waypoints = route.path.map(nodeId => {
             const stop = stops.find(s => s.id === nodeId);
-            return [stop.lat, stop.lon];
+            return L.latLng(stop.lat, stop.lon);
         });
+        const color = i === selectedIndex ? '#3498db' : '#95a5a6';
+        const weight = i === selectedIndex ? 5 : 2;
+        const dashArray = i === selectedIndex ? null : '5, 5';
 
-        const color = idx === selectedIndex ? '#3498db' : '#95a5a6';
-        const weight = idx === selectedIndex ? 5 : 2;
-
-        L.polyline(latlngs, {
+        const coords = await getRouteGeometry(waypoints);
+        L.polyline(coords, {
             color: color,
             weight: weight,
             opacity: 0.7,
-            dashArray: idx === selectedIndex ? null : '5, 5'
+            dashArray: dashArray
         }).addTo(routesLayer);
-    });
+    }
 
-    if (routes.length > 0) {
-        const allPoints = routes.flatMap(route =>
-            route.path.map(nodeId => {
-                const stop = stops.find(s => s.id === nodeId);
-                return [stop.lat, stop.lon];
-            })
-        );
-        if (allPoints.length > 0) {
-            map.fitBounds(L.latLngBounds(allPoints));
+    if (routes.length > 0 && routes[selectedIndex]) {
+        const waypoints = routes[selectedIndex].path.map(nodeId => {
+            const stop = stops.find(s => s.id === nodeId);
+            return [stop.lat, stop.lon];
+        });
+        if (waypoints.length > 0) {
+            map.fitBounds(L.latLngBounds(waypoints));
         }
     }
 }
@@ -108,7 +164,7 @@ function displayRoutes(routes) {
             document.querySelectorAll('.route-card').forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
             currentSelectedRoute = idx;
-            drawRoutes(routes, idx);
+            drawRoutesWithOSRM(routes, idx);
         };
 
         const pathStr = route.path.join(' → ');
@@ -124,66 +180,14 @@ function displayRoutes(routes) {
             </div>
         `;
 
-        // TODO: кнопка лайка (будет добавлена позже с адаптацией)
-        // const likeBtn = document.createElement('button');
-        // likeBtn.className = 'like-btn';
-        // likeBtn.textContent = '❤️ Мне нравится';
-        // likeBtn.onclick = (e) => {
-        //     e.stopPropagation();
-        //     likeRoute(idx);
-        // };
-        // card.appendChild(likeBtn);
-
         container.appendChild(card);
     });
 
     if (routes.length > 0) {
-        drawRoutes(routes, 0);
+        drawRoutesWithOSRM(routes, 0);
         currentSelectedRoute = 0;
     }
 }
-
-// TODO: функция лайка (будет добавлена позже с адаптацией)
-/*
-function likeRoute(idx) {
-    const route = currentRoutes[idx];
-    let routeType = 'balanced';
-    const avgTime = currentRoutes.map(r => r.time_avg);
-    const avgCost = currentRoutes.map(r => r.cost);
-    const avgComfort = currentRoutes.map(r => r.comfort);
-    if (route.time_avg === Math.min(...avgTime)) routeType = 'fast';
-    else if (route.cost === Math.min(...avgCost)) routeType = 'cheap';
-    else if (route.comfort === Math.max(...avgComfort)) routeType = 'comfort';
-    localStorage.setItem('last_like', routeType);
-    alert(`Сохранено предпочтение: ${routeType} маршрут`);
-}
-*/
-
-// TODO: функция сброса весов (будет добавлена позже)
-/*
-function resetWeights() {
-    document.getElementById('weightTime').value = '0.5';
-    document.getElementById('weightCost').value = '0.3';
-    document.getElementById('weightComfort').value = '0.2';
-    updateSliderValues();
-}
-*/
-
-// TODO: функция экспорта маршрута (будет добавлена позже)
-/*
-function exportRoute(route) {
-    const text = `Маршрут: ${route.path.join(' → ')}\nВремя: ${route.time_avg} мин (${route.time_min}–${route.time_max})\nСтоимость: ${route.cost} руб\nКомфорт: ${route.comfort}`;
-    navigator.clipboard.writeText(text);
-    alert('Маршрут скопирован в буфер обмена');
-}
-*/
-
-// TODO: функция отрисовки графика Парето-фронта (будет добавлена позже)
-/*
-function drawParetoChart(routes) {
-    // подготовка данных для графика
-}
-*/
 
 function getWeights() {
     const time = parseFloat(document.getElementById('weightTime').value);
@@ -202,16 +206,6 @@ async function searchRoutes() {
     const to = parseInt(document.getElementById('toSelect').value);
     let weights = getWeights();
 
-    // TODO: адаптация на основе истории (будет добавлена позже)
-    // const lastLike = localStorage.getItem('last_like');
-    // if (lastLike === 'fast') weights.time += 0.2;
-    // else if (lastLike === 'cheap') weights.cost += 0.2;
-    // else if (lastLike === 'comfort') weights.comfort += 0.2;
-    // const sum = weights.time + weights.cost + weights.comfort;
-    // weights.time /= sum;
-    // weights.cost /= sum;
-    // weights.comfort /= sum;
-
     document.getElementById('results').style.opacity = '0.5';
 
     const response = await fetch('/api/route', {
@@ -224,9 +218,6 @@ async function searchRoutes() {
     currentRoutes = data.routes;
     displayRoutes(currentRoutes);
     document.getElementById('results').style.opacity = '1';
-
-    // TODO: отрисовать график Парето-фронта (будет добавлен позже)
-    // if (currentRoutes.length > 0) drawParetoChart(currentRoutes);
 }
 
 function updateSliderValues() {
@@ -245,7 +236,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('weightCost').addEventListener('input', updateSliderValues);
     document.getElementById('weightComfort').addEventListener('input', updateSliderValues);
     updateSliderValues();
-
-    // TODO: кнопка сброса весов (будет добавлена позже)
-    // document.getElementById('resetWeightsBtn').addEventListener('click', resetWeights);
 });

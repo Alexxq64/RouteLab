@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RouteLab — многокритериальная маршрутизация</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -44,16 +46,10 @@
 
             <button id="searchBtn" class="btn">Найти маршруты</button>
 
-            <!-- TODO: кнопка сброса весов (будет добавлена позже) -->
-            <!-- <button id="resetWeightsBtn" class="btn-reset">Сбросить веса</button> -->
-
             <div class="results" id="results">
                 <h3>Маршруты</h3>
                 <div id="routesList"></div>
             </div>
-
-            <!-- TODO: график Парето-фронта (будет добавлен позже) -->
-            <!-- <div id="paretoChart" style="margin-top: 20px;"></div> -->
         </div>
 
         <div class="map-container">

@@ -1,5 +1,4 @@
 # app.py
-
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
@@ -13,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 print("Загрузка графа...")
-graph = load_graph("data/graph.json")
+graph = load_graph("data/graph_real.json")
 print(f"Граф загружен: {len(graph.nodes)} вершин, {len(graph.edges)} рёбер")
 
 @app.route('/api/stops', methods=['GET'])
@@ -30,11 +29,9 @@ def get_stops():
 
 @app.route('/api/edges', methods=['GET'])
 def get_edges():
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     return jsonify(graph_data['edges'])
-
-# app.py (только изменённая функция get_route, остальное без изменений)
 
 @app.route('/api/route', methods=['POST'])
 def get_route():
@@ -84,7 +81,7 @@ def add_stop():
     lat = data['lat']
     lon = data['lng']
     
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     
     new_id = max(n['id'] for n in graph_data['nodes']) + 1
@@ -96,11 +93,11 @@ def add_stop():
         'lon': lon
     })
     
-    with open('data/graph.json', 'w', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'w', encoding='utf-8') as f:
         json.dump(graph_data, f, ensure_ascii=False, indent=2)
     
     global graph
-    graph = load_graph('data/graph.json')
+    graph = load_graph('data/graph_real.json')
     
     return jsonify({'status': 'ok', 'id': new_id})
 
@@ -111,7 +108,7 @@ def update_stop(stop_id):
     new_lat = data.get('lat')
     new_lon = data.get('lon')
     
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     
     for node in graph_data['nodes']:
@@ -126,17 +123,17 @@ def update_stop(stop_id):
     else:
         return jsonify({'status': 'error', 'message': 'Остановка не найдена'}), 404
     
-    with open('data/graph.json', 'w', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'w', encoding='utf-8') as f:
         json.dump(graph_data, f, ensure_ascii=False, indent=2)
     
     global graph
-    graph = load_graph('data/graph.json')
+    graph = load_graph('data/graph_real.json')
     
     return jsonify({'status': 'ok'})
 
 @app.route('/api/stop/<int:stop_id>', methods=['DELETE'])
 def delete_stop(stop_id):
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     
     new_nodes = [n for n in graph_data['nodes'] if n['id'] != stop_id]
@@ -148,11 +145,11 @@ def delete_stop(stop_id):
     graph_data['nodes'] = new_nodes
     graph_data['edges'] = new_edges
     
-    with open('data/graph.json', 'w', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'w', encoding='utf-8') as f:
         json.dump(graph_data, f, ensure_ascii=False, indent=2)
     
     global graph
-    graph = load_graph('data/graph.json')
+    graph = load_graph('data/graph_real.json')
     
     return jsonify({'status': 'ok'})
 
@@ -167,7 +164,7 @@ def add_edge():
     cost = data['cost']
     comfort = data['comfort']
     
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     
     new_edge = {
@@ -194,11 +191,11 @@ def add_edge():
     
     graph_data['edges'].append(reverse_edge)
     
-    with open('data/graph.json', 'w', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'w', encoding='utf-8') as f:
         json.dump(graph_data, f, ensure_ascii=False, indent=2)
     
     global graph
-    graph = load_graph('data/graph.json')
+    graph = load_graph('data/graph_real.json')
     
     return jsonify({'status': 'ok'})
 
@@ -209,7 +206,7 @@ def update_edge(from_id, to_id):
     new_cost = data.get('cost')
     new_comfort = data.get('comfort')
     
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     
     found = False
@@ -228,17 +225,17 @@ def update_edge(from_id, to_id):
     if not found:
         return jsonify({'status': 'error', 'message': 'Маршрут не найден'}), 404
     
-    with open('data/graph.json', 'w', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'w', encoding='utf-8') as f:
         json.dump(graph_data, f, ensure_ascii=False, indent=2)
     
     global graph
-    graph = load_graph('data/graph.json')
+    graph = load_graph('data/graph_real.json')
     
     return jsonify({'status': 'ok'})
 
 @app.route('/api/edge/<int:from_id>/<int:to_id>', methods=['DELETE'])
 def delete_edge(from_id, to_id):
-    with open('data/graph.json', 'r', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'r', encoding='utf-8') as f:
         graph_data = json.load(f)
     
     original_count = len(graph_data['edges'])
@@ -251,11 +248,11 @@ def delete_edge(from_id, to_id):
     if len(graph_data['edges']) == original_count:
         return jsonify({'status': 'error', 'message': 'Маршрут не найден'}), 404
     
-    with open('data/graph.json', 'w', encoding='utf-8') as f:
+    with open('data/graph_real.json', 'w', encoding='utf-8') as f:
         json.dump(graph_data, f, ensure_ascii=False, indent=2)
     
     global graph
-    graph = load_graph('data/graph.json')
+    graph = load_graph('data/graph_real.json')
     
     return jsonify({'status': 'ok'})
 

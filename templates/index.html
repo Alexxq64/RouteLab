@@ -44,11 +44,12 @@
                 </div>
             </div>
 
-            <button id="searchBtn" class="btn">Найти маршруты</button>
-            <button id="addStopBtn" class="btn" style="background:#e67e22; margin-top:0;">➕ Добавить остановку</button>
-            <button id="addEdgeBtn" class="btn" style="background:#27ae60;">➕ Добавить маршрут</button>
-            <button id="pointToPointBtn" class="btn" style="background:#9b59b6;">📍 Точка → Точка</button>
-            <button id="addPointBtn" class="btn" style="background:#f39c12;">📍 Добавить точку</button>
+            <button id="searchBtn" class="btn" onclick="searchRoutes()">Найти маршруты</button>
+            <button id="addStopBtn" class="btn" style="background:#e67e22; margin-top:0;" onclick="window.startAddStopMode()">➕ Добавить остановку</button>
+            <button id="addEdgeBtn" class="btn" style="background:#27ae60;" onclick="window.startAddEdgeMode()">➕ Добавить ребро</button>
+            <button id="pointToPointBtn" class="btn" style="background:#9b59b6;" onclick="window.startPointToPointMode()">📍 Точка → Точка</button>
+            <button id="addPointBtn" class="btn" style="background:#f39c12;" onclick="window.startAddPointMode()">📍 Добавить точку</button>
+            <button id="clearRouteBtn" class="btn" style="background:#95a5a6; margin-top:5px;" onclick="window.clearStartEndMarkers(); if(typeof drawRoutesWithOSRM === 'function') drawRoutesWithOSRM([], 0);">🗑 Сбросить маршрут</button>
 
             <div class="saved-points" style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
                 <h4 style="margin: 0 0 8px 0;">📌 Сохранённые точки</h4>
@@ -75,15 +76,20 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='map-core.js') }}"></script>
-    <script src="{{ url_for('static', filename='map-markers.js') }}"></script>
-    <script src="{{ url_for('static', filename='map-edges.js') }}"></script>
-    <script src="{{ url_for('static', filename='map-routes.js') }}"></script>
-    <script src="{{ url_for('static', filename='map-points.js') }}"></script>
-    <script src="{{ url_for('static', filename='map-stop-add.js') }}"></script>
-    <script src="{{ url_for('static', filename='api.js') }}"></script>
-    <script src="{{ url_for('static', filename='ui.js') }}"></script>
-    <script src="{{ url_for('static', filename='graph-editor.js') }}"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='core/state.js') }}"></script>
+    <script src="{{ url_for('static', filename='map/map.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='core/api.js') }}"></script>
+    <script src="{{ url_for('static', filename='core/app.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='editor/editor.js') }}"></script>
+    <script src="{{ url_for('static', filename='editor/placeEditor.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='map/markers.js') }}"></script>
+    <script src="{{ url_for('static', filename='map/edges.js') }}"></script>
+    <script src="{{ url_for('static', filename='map/routes.js') }}"></script>
+    <script src="{{ url_for('static', filename='map/points.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='ui/ui.js') }}"></script>
 </body>
 </html>

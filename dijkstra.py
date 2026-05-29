@@ -91,7 +91,7 @@ def dijkstra(graph, start_node, end_node):
 if __name__ == "__main__":
 
     # Загрузка графа
-    graph = load_graph("data/graph.json")
+    graph = load_graph("data/graph_real.json")
 
     # Стартовая вершина
     start = 0

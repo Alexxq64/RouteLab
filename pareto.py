@@ -76,7 +76,7 @@ def pareto_search(graph, start_node, end_node):
 
 # Точка входа
 if __name__ == "__main__":
-    graph = load_graph("data/graph.json")
+    graph = load_graph("data/graph_real.json")
 
     start = 0
     end = 19

@@ -74,7 +74,7 @@ def enrich_routes_with_stochastic(graph, routes, simulations=100):
 # Точка входа для теста
 if __name__ == "__main__":
     # Загрузка графа
-    graph = load_graph("data/graph.json")
+    graph = load_graph("data/graph_real.json")
 
     # Парето-поиск от 0 до 19
     routes = pareto_search(graph, 0, 19)

@@ -1,5 +1,3 @@
-/* static/style.css */
-
 * {
     margin: 0;
     padding: 0;
@@ -8,157 +6,26 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f5f5;
-    color: #333;
+    overflow: hidden;
 }
 
 .container {
     display: flex;
+    flex-direction: row;
     height: 100vh;
+    width: 100vw;
 }
 
 .sidebar {
-    width: 380px;
-    background: #ffffff;
-    padding: 20px;
-    overflow-y: auto;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-    z-index: 10;
-    border-right: 1px solid #ddd;
-}
-
-.sidebar h1 {
-    font-size: 24px;
-    margin-bottom: 5px;
-    color: #2c3e50;
-}
-
-.subtitle {
-    font-size: 12px;
-    color: #7f8c8d;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #2c3e50;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    background: #fff;
-    border: 1px solid #bdc3c7;
-    border-radius: 6px;
-    color: #333;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-select:focus {
-    outline: none;
-    border-color: #3498db;
-}
-
-.weights {
-    margin-bottom: 10px;
-    font-size: 13px;
-}
-
-.weights input {
-    width: 70%;
-    margin-left: 10px;
-    vertical-align: middle;
-}
-
-.weights span {
-    margin-left: 10px;
-    font-family: monospace;
-    color: #3498db;
-}
-
-.btn {
-    width: 100%;
-    padding: 12px;
-    background: #3498db;
-    border: none;
-    border-radius: 6px;
+    width: 320px;
+    background: #2c3e50;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin: 20px 0;
-}
-
-.btn:hover {
-    background: #2980b9;
-}
-
-.results {
-    margin-top: 20px;
-    border-top: 1px solid #ecf0f1;
-    padding-top: 15px;
-}
-
-.results h3 {
-    font-size: 16px;
-    margin-bottom: 15px;
-    color: #2c3e50;
-}
-
-.route-card {
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 2px solid transparent;
-}
-
-.route-card:hover {
-    transform: translateX(4px);
-    background: #ecf0f1;
-}
-
-.route-card.selected {
-    border-color: #3498db;
-    background: #e8f4fd;
-}
-
-.route-card .route-path {
-    font-family: monospace;
-    font-size: 11px;
-    color: #7f8c8d;
-    margin-bottom: 8px;
-}
-
-.route-card .route-stats {
     display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-}
-
-.route-card .stat {
-    text-align: center;
-}
-
-.route-card .stat .value {
-    font-weight: bold;
-    color: #3498db;
-}
-
-.route-card .stat .label {
-    font-size: 10px;
-    color: #95a5a6;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    z-index: 10;
 }
 
 .map-container {
@@ -167,6 +34,353 @@ select:focus {
 }
 
 #map {
-    height: 100%;
     width: 100%;
+    height: 100%;
+}
+
+/* Остальные стили */
+.sidebar h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #3498db;
+}
+
+.sidebar .subtitle {
+    font-size: 12px;
+    color: #bdc3c7;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background: #34495e;
+    color: white;
+    font-size: 13px;
+}
+
+.weights {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.weights label {
+    display: inline;
+}
+
+.weights input {
+    width: 70%;
+    margin-left: 10px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #2980b9;
+}
+
+.results {
+    margin-top: 20px;
+    border-top: 1px solid #34495e;
+    padding-top: 15px;
+}
+
+.results h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#routesList {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.route-card {
+    background: #34495e;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.route-card:hover {
+    background: #3d566e;
+}
+
+.route-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.route-badge {
+    background: #3498db;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+.route-details {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.route-path {
+    font-size: 10px;
+    color: #95a5a6;
+    word-break: break-all;
+}
+
+#searchBtn {
+    margin-bottom: 15px;
+}
+
+#addStopBtn {
+    margin-top: 5px;
+}
+
+/* Edge popup styles */
+.edge-popup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.edge-popup-btn {
+    padding: 6px 12px;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edge-popup-btn:hover {
+    opacity: 0.8;
+}
+
+.edge-popup-btn-cancel {
+    background: #999;
+}
+
+.edge-popup-btn-both {
+    background: #ff4444;
+}
+
+.edge-popup-btn-edit {
+    background: #3498db;
+}
+
+/* Edge choice popup */
+.edge-choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.edge-choice-btn {
+    padding: 8px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edge-choice-btn:hover {
+    opacity: 0.8;
+}
+
+.edge-choice-btn-cancel {
+    background: #999;
+}
+
+/* Edge edit modal */
+.edge-edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.edge-edit-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.edge-edit-modal h3 {
+    margin: 0 0 10px 0;
+}
+
+.edge-edit-modal-subtitle {
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+.edge-edit-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.edge-edit-table td {
+    padding: 5px;
+}
+
+.edge-edit-table input {
+    width: 100%;
+}
+
+.edge-edit-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edge-edit-btn-save {
+    flex: 1;
+    padding: 8px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edge-edit-btn-save:hover {
+    opacity: 0.8;
+}
+
+.edge-edit-btn-cancel {
+    flex: 1;
+    padding: 8px;
+    background: #999;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edge-edit-btn-cancel:hover {
+    opacity: 0.8;
+}
+
+.point-marker {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.point-marker:hover {
+    transform: scale(1.2);
+}
+
+.edge-choice-popup-btn:hover {
+    background: #2980b9 !important;
+}
+
+/* Сохранённые точки и история маршрутов */
+.saved-points,
+.history {
+    background: #f0f0f0 !important;
+    color: #333 !important;
+}
+
+.saved-points h4,
+.history h4 {
+    color: #333 !important;
+}
+
+.saved-points div,
+.history div {
+    color: #333 !important;
+}
+
+.saved-points .saved-point-item,
+.history .history-item {
+    color: #333 !important;
+}
+
+.saved-points .saved-point-item span,
+.history .history-item span {
+    color: #333 !important;
+}
+
+.start-marker, .end-marker {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.saved-point-item label {
+    width: 30px;
+    text-align: center;
+    margin: 0 2px;
+}
+
+.saved-point-item input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+}
+
+input[name="startPoint"]:checked {
+    accent-color: #27ae60;
+}
+
+input[name="endPoint"]:checked {
+    accent-color: #e74c3c;
+}
+
+.highlighted-point-marker {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+}
+
+.saved-point-item span:hover {
+    background: #34495e;
+    padding-left: 4px;
+    border-radius: 3px;
 }
